@@ -5,9 +5,11 @@ export default async function handler(req, res) {
 
   // ── STORY GENERATION ──────────────────────────────────────────────
   if (action === 'generate') {
-    const animal = profile.animal ? `a ${profile.animal}` : 'a friendly creature'
-    const theme = profile.theme || 'adventure'
-    const age = profile.age || '5'
+const animal = profile.animal ? `a ${profile.animal}` : 'a friendly creature'
+const theme = profile.theme || 'adventure'
+const age = profile.age || '5'
+const gender = profile.gender || 'neutral'
+const pronouns = gender==='girl' ? 'she/her' : gender==='boy' ? 'he/him' : 'they/them'
 
     const prompt = `Write a soothing bedtime story for a ${age}-year-old child named ${profile.name}.
 The story should feature ${animal} and have a theme of ${theme}.
@@ -15,6 +17,7 @@ Requirements:
 - Use ${profile.name}'s name naturally throughout (at least 4 times)
 - Keep it 300-400 words, perfect for bedtime
 - Gentle, calming tone, no scary elements
+- Use pronouns: ${pronouns} when referring to ${profile.name}
 - End with ${profile.name} falling peacefully asleep
 - Include vivid dreamlike imagery
 - Simple vocabulary suitable for age ${age}
