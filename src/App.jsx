@@ -17,6 +17,11 @@ const THEMES=[
   {id:"courage",e:"🦸"},{id:"kindness",e:"💛"},{id:"discovery",e:"🔭"},
   {id:"nature",e:"🌿"},{id:"space",e:"🚀"},
 ];
+const GENDERS=[
+  {id:"girl",e:"👧",label:"Girl"},
+  {id:"boy",e:"👦",label:"Boy"},
+  {id:"neutral",e:"🧒",label:"Neutral"},
+];
 const SOUNDS=[
   {id:"rain",e:"🌧️",label:"Rain",
    url:"https://www.soundjay.com/nature/sounds/rain-01.mp3"},
@@ -556,7 +561,7 @@ function ChildView({story,profile,onBack}){
 // PARENT VIEW
 // ══════════════════════════════════════════════════════════════════════════════
 function ParentView({profile,setProfile,stories,onGenerate,onSelectStory,generating}){
-  const [form,setForm]=useState(profile||{name:"",age:"",animal:"",theme:""});
+  const [form,setForm]=useState(profile||{name:"",age:"",gender:"",animal:"",theme:""});
   const [saved,setSaved]=useState(!!profile);
   const f=(k,v)=>setForm(p=>({...p,[k]:v}));
   const save=()=>{if(!form.name.trim())return;setProfile(form);setSaved(true);};
@@ -628,6 +633,29 @@ function ParentView({profile,setProfile,stories,onGenerate,onSelectStory,generat
                     textTransform:"uppercase",display:"block",marginBottom:8}}>Age</label>
                   <GlassInput value={form.age} onChange={e=>f("age",e.target.value)} placeholder="e.g. 5" type="number"/>
                 </div>
+                <div>
+  <label style={{color:C.textMuted,fontSize:11,fontWeight:700,letterSpacing:"1.5px",
+    textTransform:"uppercase",display:"block",marginBottom:10}}>Gender</label>
+  <div style={{display:"flex",gap:10}}>
+    {GENDERS.map(g=>{
+      const sel=form.gender===g.id;
+      return(
+        <button key={g.id} onClick={()=>f("gender",g.id)} style={{
+          flex:1,padding:"12px 8px",borderRadius:16,
+          display:"flex",flexDirection:"column",alignItems:"center",gap:6,
+          background:sel?"linear-gradient(135deg,rgba(249,168,212,0.3),rgba(196,181,253,0.3))":"rgba(255,255,255,0.07)",
+          border:`1px solid ${sel?"rgba(249,168,212,0.6)":"rgba(255,255,255,0.1)"}`,
+          boxShadow:sel?"0 0 16px rgba(249,168,212,0.3)":"none",
+          transform:sel?"scale(1.05)":"scale(1)",
+          transition:"all 0.2s",
+        }}>
+          <span style={{fontSize:28}}>{g.e}</span>
+          <span style={{color:sel?"white":C.textMuted,fontSize:12,fontWeight:600}}>{g.label}</span>
+        </button>
+      );
+    })}
+  </div>
+</div>
                 <div>
                   <label style={{color:C.textMuted,fontSize:11,fontWeight:700,letterSpacing:"1.5px",
                     textTransform:"uppercase",display:"block",marginBottom:10}}>Favourite Animal</label>
